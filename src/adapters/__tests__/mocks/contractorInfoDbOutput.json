@@ -1,0 +1,25 @@
+{
+    "dataValues":
+    {
+        "totalEarned": 2020,
+        "Contract": {
+            "id": 7,
+            "terms": "bla bla bla",
+            "status": "in_progress",
+            "createdAt": "2023-02-17T18:33:41.684Z",
+            "updatedAt": "2023-02-17T18:33:41.684Z",
+            "ContractorId": 7,
+            "ClientId": 4,
+            "Contractor": {
+                "id": 7,
+                "firstName": "Alan",
+                "lastName": "Turing",
+                "profession": "Programmer",
+                "balance": 22,
+                "type": "contractor",
+                "createdAt": "2023-02-17T18:33:41.683Z",
+                "updatedAt": "2023-02-17T18:33:41.683Z"
+            }
+        }
+    }
+}

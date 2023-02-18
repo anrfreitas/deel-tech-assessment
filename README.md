@@ -15,10 +15,6 @@ You can find the original `README.md` in resources folder. There's also a Postma
 ### What would I have done more?
 - Implement remaining Unit and Integration Tests where it's applicable
 
-- Implement a Validation Layer
-    - Add [class-validator](https://www.npmjs.com/package/class-validator) & [class-transformer](https://www.npmjs.com/package/class-transformer) to validate our payload objects
-    - Maybe add [Yup](https://www.npmjs.com/package/yup) to validate other stuff
-
 - Add Pagination on `/contracts` and where else it's applicable
 
 - Add Rate limiting where it's applicable
@@ -35,9 +31,7 @@ You can find the original `README.md` in resources folder. There's also a Postma
 
 - Setup Typescript + EsLint + Prettier + Husky to make sure the code looks nice
 
-- Setup a Github Workflow and a PR template
-
-- Setup Github Actions or AWS CodePipeline to Build and Deploy the solution to staging or production
+- Setup Github Actions or AWS CodePipeline to perform CI/CD to staging / production servers
 
 ## Getting Set Up
 

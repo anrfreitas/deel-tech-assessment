@@ -1,10 +1,15 @@
+const config = require('../config/config');
 class HttpResponse {
     #status = 200
     #message = {}
 
-    constructor(status, message) {
+    constructor(status, message, exception) {
         this.#status = status ?? 200;
         this.#message = message ?? {};
+
+        if (exception && config.DEBUG) {
+            console.error(exception);
+        }
     }
 
     getStatus() {

@@ -7,7 +7,7 @@ class AdminController {
         try {
             return new AdminService().getBestProfessional(startDate, endDate);
         } catch (error) {
-            return new HttpResponse(500, 'Internal Server Error');
+            return new HttpResponse(500, 'Internal Server Error', error);
         }
     }
 
@@ -15,7 +15,7 @@ class AdminController {
         try {
             return new AdminService().getBestClients(startDate, endDate, limit);
         } catch (error) {
-            return new HttpResponse(500, 'Internal Server Error');
+            return new HttpResponse(500, 'Internal Server Error', error);
         }
     }
 }

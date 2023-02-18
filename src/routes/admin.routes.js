@@ -1,6 +1,6 @@
 const middlewares = require('../middlewares');
 const config = require('../config/config');
-const AdminController = require('../controllers/admin.controller');
+const controllerModule = require('../controllers/controller.module');
 
 const API_CONTEXT_PREFIX = 'admin';
 
@@ -14,7 +14,7 @@ const setupContextRoutes = (app) => {
      */
     app.get(`/${API_CONTEXT_PREFIX}/best-professional`,
         [ middlewares.cache(config.DEFAULT_CACHE_TTL), middlewares.getProfile ], async (req, res) => {
-            const httpResponse = await AdminController
+            const httpResponse = await controllerModule.adminController
                 .getBestProfessional(req.query?.start, req.query?.end);
             return httpResponse.processResponse(res);
     });
@@ -29,7 +29,7 @@ const setupContextRoutes = (app) => {
      */
     app.get(`/${API_CONTEXT_PREFIX}/best-clients`,
         [ middlewares.cache(config.DEFAULT_CACHE_TTL), middlewares.getProfile ], async (req, res) => {
-            const httpResponse = await AdminController
+            const httpResponse = await controllerModule.adminController
                 .getBestClients(req.query?.start, req.query?.end, req.query?.limit);
             return httpResponse.processResponse(res);
     });

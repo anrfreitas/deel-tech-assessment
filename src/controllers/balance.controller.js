@@ -7,7 +7,7 @@ class BalanceController {
         try {
             return new BalanceService().performDeposit(senderProfileId, receiverProfileId, amount);
         } catch (error) {
-            return new HttpResponse(500, 'Internal Server Error');
+            return new HttpResponse(500, 'Internal Server Error', error);
         }
     }
 }

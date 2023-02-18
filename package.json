@@ -14,8 +14,8 @@
   "scripts": {
     "start": "nodemon ./src/server.js",
     "seed": "node ./scripts/seedDb.js",
-    "test": "jest --silent --runInBand --forceExit --verbose",
-    "test:integration": "jest --silent --runInBand --forceExit --verbose --testPathPattern=ispec\\.js$"
+    "test": "jest --silent --detectOpenHandles --runInBand --forceExit --verbose --testPathPattern=\\.spec\\.js$",
+    "test:integration": "jest --detectOpenHandles --silent --runInBand --forceExit --verbose --testPathPattern=\\.test\\.js$"
   },
   "devDependencies": {
     "concurrently": "4.1.0",

@@ -1,6 +1,6 @@
-const contractsRoutes = require('./routes/contracts.routes')
-const jobsRoutes = require('./routes/jobs.routes')
-const balancesRoutes = require('./routes/balances.routes')
+const contractsRoutes = require('./routes/contract.routes')
+const jobsRoutes = require('./routes/job.routes')
+const balancesRoutes = require('./routes/balance.routes')
 const adminRoutes = require('./routes/admin.routes')
 
 const setupRoutes = (app) => {

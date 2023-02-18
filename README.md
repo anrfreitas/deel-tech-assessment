@@ -13,9 +13,7 @@ You can find the original `README.md` in resources folder. There's also a Postma
 - Some simple unit tests, and a very simple example of integration tests
 
 ### What would I have if it was a commercial microservice
-- Implement a service layer to isolate the business logic and have a better Code Organization instead of keeping everything inside our Rest Controllers. This one would have the highest priority.
-
-- Service Layer Unit Test Cases (once the service layer is ready, would be possible to mock db calls to fully unit test service functions)
+- Implement remaining Unit and Integration Tests where it's applicable
 
 - Implement a Validation Layer
     - Add [class-validator](https://www.npmjs.com/package/class-validator) & [class-transformer](https://www.npmjs.com/package/class-transformer) to validate our payload objects
@@ -68,3 +66,7 @@ The exercise requires [Node.js](https://nodejs.org/en/) to be installed. We reco
 - To run the projects unit tests is very simple, you just need to run `npm run test` on root directory
 
 - If you want to run integration tests, you gotta first seed our local database by running `npm run seed` and then `npm run test:integration`
+
+- Test patterns:
+    - Integration tests: `*.test.js`
+    - Unit tests: `*.spec.js`

@@ -2,7 +2,7 @@ const mockDbOutput = require('./mocks/clientInfoDbOutput.json');
 const ClientTransformer = require('../ClientTransformer');
 
 describe('Testing ClientTransformer', () => {
-    it('should return correctly the output object', () => {
+    test('should return correctly the output object', () => {
         const transformedObject =
             ClientTransformer.getBestClientsResponse(mockDbOutput);
 
@@ -17,13 +17,13 @@ describe('Testing ClientTransformer', () => {
         expect(true).toBe(true);
     });
 
-    it('passing an empty payload should return an empty object', () => {
+    test('passing an empty payload should return an empty object', () => {
         const transformedObject =
             ClientTransformer.getBestClientsResponse({});
         expect(transformedObject).toMatchObject({});
     });
 
-    it('passing null should return an empty object', () => {
+    test('passing null should return an empty object', () => {
         const transformedObject =
             ClientTransformer.getBestClientsResponse(null);
         expect(transformedObject).toMatchObject({});

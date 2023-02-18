@@ -1,8 +1,8 @@
 const supertest = require('supertest');
 const app = require('../../app');
 
-describe('Test Contracts Routes (Integration tests)', () => {
-    test('GET /contracts/1 - should return successful response', async () => {
+describe('Test Contracts Routes', () => {
+    it('GET /contracts/1 - should return successful response', async () => {
         const response = await supertest(app)
             .get('/contracts/1').set('profile_id', '1');
 
@@ -14,7 +14,7 @@ describe('Test Contracts Routes (Integration tests)', () => {
         expect(response.body.ClientId).toEqual(1);
     });
 
-    test('GET /contracts/1 - should return not authorized response', async () => {
+    it('GET /contracts/1 - should return not authorized response', async () => {
         const response = await supertest(app)
             .get('/contracts/1');
 

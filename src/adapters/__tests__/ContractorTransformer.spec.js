@@ -2,7 +2,7 @@ const mockDbOutput = require('./mocks/contractorInfoDbOutput.json');
 const ContractorTransformer = require('../ContractorTransformer');
 
 describe('Testing ContractorTransformer', () => {
-    it('should return correctly the output object', () => {
+    test('should return correctly the output object', () => {
         const transformedObject =
             ContractorTransformer.getBestProfessionalResponse(mockDbOutput);
         expect(transformedObject.id).toBe(7);
@@ -10,13 +10,13 @@ describe('Testing ContractorTransformer', () => {
         expect(transformedObject.earned).toBe(2020);
     });
 
-    it('passing an empty payload should return an empty object', () => {
+    test('passing an empty payload should return an empty object', () => {
         const transformedObject =
             ContractorTransformer.getBestProfessionalResponse({});
         expect(transformedObject).toMatchObject({});
     });
 
-    it('passing null should return an empty object', () => {
+    test('passing null should return an empty object', () => {
         const transformedObject =
             ContractorTransformer.getBestProfessionalResponse(null);
         expect(transformedObject).toMatchObject({});

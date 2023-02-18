@@ -7,7 +7,7 @@ class ContractController {
         try {
             return new ContractService().getContractById(profileId, contractId);
         } catch (error) {
-            return new HttpResponse(500, 'Internal Server Error');
+            return new HttpResponse(500, 'Internal Server Error', error);
         }
     }
 
@@ -15,7 +15,7 @@ class ContractController {
         try {
             return new ContractService().getAllContracts(profileId);
         } catch (error) {
-            return new HttpResponse(500, 'Internal Server Error');
+            return new HttpResponse(500, 'Internal Server Error', error);
         }
     }
 }

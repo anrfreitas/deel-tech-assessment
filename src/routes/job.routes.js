@@ -1,6 +1,6 @@
 const middlewares = require('../middlewares');
 const config = require('../config/config');
-const JobController = require('../controllers/job.controller');
+const controllerModule = require('../controllers/controller.module');
 
 const API_CONTEXT_PREFIX = 'jobs';
 
@@ -10,7 +10,8 @@ const setupContextRoutes = (app) => {
      */
     app.get(`/${API_CONTEXT_PREFIX}/unpaid`,
         [ middlewares.cache(config.DEFAULT_CACHE_TTL), middlewares.getProfile ], async (req, res) => {
-            const httpResponse = await JobController.getUnpaidJobs(req.headers?.profile_id);
+            const httpResponse = await controllerModule.jobController
+                .getUnpaidJobs(req.headers?.profile_id);
             return httpResponse.processResponse(res);
     });
 
@@ -21,7 +22,7 @@ const setupContextRoutes = (app) => {
      * The amount should be moved from the client's balance to the contractor balance.
      */
     app.post(`/${API_CONTEXT_PREFIX}/:jobId/pay`, [ middlewares.getProfile ], async (req, res) => {
-        const httpResponse = await JobController
+        const httpResponse = await controllerModule.jobController
                 .performJobPayment(req.headers?.profile_id, req.params?.jobId);
         return httpResponse.processResponse(res);
     });

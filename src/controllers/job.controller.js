@@ -7,7 +7,7 @@ class JobController {
         try {
             return new JobService().getUnpaidJobs(profileId);
         } catch (error) {
-            return new HttpResponse(500, 'Internal Server Error');
+            return new HttpResponse(500, 'Internal Server Error', error);
         }
     }
 
@@ -15,7 +15,7 @@ class JobController {
         try {
             return new JobService().performJobPayment(profileId, jobId);
         } catch (error) {
-            return new HttpResponse(500, 'Internal Server Error');
+            return new HttpResponse(500, 'Internal Server Error', error);
         }
     }
 }

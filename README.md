@@ -12,7 +12,7 @@ You can find the original `README.md` in resources folder. There's also a Postma
 - Implemented Adapters, Helpers and a way to Abstract Routes
 - Some simple unit tests, and a very simple example of integration tests
 
-### What would I have if it was a commercial microservice
+### What would I have done more?
 - Implement remaining Unit and Integration Tests where it's applicable
 
 - Implement a Validation Layer

@@ -4,20 +4,19 @@ const dateHelper = require('../helpers/dates');
 const ClientTransformer = require('../adapters/ClientTransformer');
 const ContractorTransformer = require('../adapters/ContractorTransformer');
 const HttpResponse = require('../classes/HttpResponse');
+const ObjectValidator = require('../classes/ObjectValidator');
+const AdminServiceRules = require('./rules/admin.service.rules');
 
 class AdminService {
 
     async getBestProfessional (startDateStr, endDateStr) {
         const { Profile, Contract, Job } = sequelize.models;
 
-        /*
-            @TODO Input validation
-            I'm doing it manually here, but would be great to have something to validate our payloads
-        */
-        if (!dateHelper.isValidDate(startDateStr) ||
-                !dateHelper.isValidDate(endDateStr)) {
-            return new HttpResponse(422, { error: 'Input date is in incorrect format.'});
-        }
+        const validation = ObjectValidator
+            .validate(AdminServiceRules.getBestProfessionalRules, { start: startDateStr, end: endDateStr });
+
+        if (validation.error)
+            return new HttpResponse(422, validation);
 
         const startDate = dateHelper.getDate(startDateStr);
         const endDate = dateHelper.getDate(endDateStr);
@@ -51,25 +50,19 @@ class AdminService {
         return new HttpResponse(200, ContractorTransformer.getBestProfessionalResponse(result));
     }
 
-    async getBestClients (startDateStr, endDateStr, limitNum) {
+    async getBestClients (startDateStr, endDateStr, limit = 2) {
         const { Profile, Contract, Job } = sequelize.models;
 
-        /*
-            @TODO Input validation
-            I'm doing it manually here, but would be great to have something to validate our payloads
-        */
-        if (!dateHelper.isValidDate(startDateStr) ||
-                !dateHelper.isValidDate(endDateStr)) {
-            return new HttpResponse(422, { error: 'Input date is in incorrect format.'});
-        }
+        const validation = ObjectValidator.validate(
+            AdminServiceRules.getBestClientsRules,
+            { start: startDateStr, end: endDateStr, limit }
+        );
 
-        if(isNaN(limitNum)) {
-            return new HttpResponse(422, { error: 'Input limit is not a number'});
-        }
+        if (validation.error)
+            return new HttpResponse(422, validation);
 
         const startDate = dateHelper.getDate(startDateStr);
         const endDate = dateHelper.getDate(endDateStr);
-        const limit = limitNum ?? 2;
 
         const result = await Job.findAll({
             where: {

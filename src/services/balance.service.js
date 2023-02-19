@@ -1,5 +1,7 @@
 const { sequelize } = require('../model')
 const HttpResponse = require('../classes/HttpResponse');
+const ObjectValidator = require('../classes/ObjectValidator');
+const BalanceServiceRules = require('./rules/balance.service.rules');
 
 class BalanceService {
 
@@ -7,6 +9,15 @@ class BalanceService {
         const t = await sequelize.transaction();
 
         const { Profile, Contract, Job } = sequelize.models;
+
+        const validation = ObjectValidator
+            .validate(BalanceServiceRules.performDepositRules, { userId: receiverProfileId, amount });
+
+        if (validation.error)
+            return new HttpResponse(422, validation);
+
+        if (!await this.#isReceiverProfileIdValid(receiverProfileId))
+            return new HttpResponse(404, { error: 'User does not exist!' });
 
         const jobs = await Job.findAll({
             where: {
@@ -26,16 +37,6 @@ class BalanceService {
         }, 0);
 
         const limitPermitedToDeposit = amountToPay * (25/100);
-
-        /*
-            @TODO Input validation
-            I'm doing it manually here, but would be great to have something to validate our payloads
-        */
-        if (isNaN(amount) || typeof amount !== 'number' ) {
-            return new HttpResponse(422, {
-                error: 'Amount field is not in correct format'
-            });
-        }
 
         if (amount > limitPermitedToDeposit) {
             return new HttpResponse(422, {
@@ -81,6 +82,19 @@ class BalanceService {
             receiver: receiverProfile,
             depositedAmount: amount.toFixed(2),
         });
+    }
+
+    async #isReceiverProfileIdValid(profileId) {
+        const { Profile } = sequelize.models;
+
+        const receiverProfile = await Profile.findOne({
+            where: {
+                id: profileId,
+            }
+        });
+
+        if (receiverProfile) return true;
+        return false;
     }
 }
 

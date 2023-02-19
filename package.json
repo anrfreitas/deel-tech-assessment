@@ -9,7 +9,8 @@
     "moment": "^2.29.4",
     "node-cache": "^5.1.2",
     "sequelize": "^6.3.4",
-    "sqlite3": "^5.1.4"
+    "sqlite3": "^5.1.4",
+    "joi": "^17.6.0"
   },
   "scripts": {
     "start": "nodemon ./src/server.js",

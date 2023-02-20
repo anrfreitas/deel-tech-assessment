@@ -55,15 +55,25 @@ class BalanceService {
              *
              * I gotta talk to the P.O to understand if it'll be deducted of the balance from person who's doing the request.
              */
-            await Profile.increment('balance', { by: amount, where: { id: receiverProfileId }, lock: true, transaction: t });
+            const profile = await Profile.findOne({ where: { id: receiverProfileId } });
+
+            await Profile.increment('balance', {
+                by: amount,
+                where: {
+                    id: receiverProfileId,
+                    version: profile.version
+                },
+                lock: true,
+                transaction: t
+            });
+
             t.commit();
         } catch (error) {
             await t.rollback();
             return new HttpResponse(422, {
                 error: "We can't process your request right now. Try again."
-            });
+            }, error);
         }
-
 
         const recipientProfile = await Profile.findOne({
             where: {

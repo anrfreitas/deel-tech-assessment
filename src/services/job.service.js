@@ -67,16 +67,41 @@ class JobService {
 
         try {
             if (jobInfo.Contract.Client.balance > jobInfo.price) {
-                await Profile.decrement('balance', { by: jobInfo.price, where: { id: clientProfileId }, lock: true, transaction: t });
-                await Profile.increment('balance', { by: jobInfo.price, where: { id: jobInfo.Contract.ContractorId }, lock: true, transaction: t });
+                const clientProfile = await Profile.findOne({ where: { id: clientProfileId } });
+                const contractorProfile = await Profile.findOne({ where: { id: clientProfileId } });
+
+                await Profile.decrement('balance', {
+                    by: jobInfo.price,
+                    where: {
+                        id: clientProfileId,
+                        version: clientProfile.version
+                    },
+                    lock: true,
+                    transaction: t
+                });
+
+                await Profile.increment('balance', {
+                    by: jobInfo.price,
+                    where: {
+                        id: jobInfo.Contract.ContractorId,
+                        version: contractorProfile.version
+                    },
+                    lock: true,
+                    transaction: t
+                });
+
                 await Job.update(
                     { paid: true },
                     {
-                        where: { id: jobId },
+                        where: {
+                            id: jobId,
+                            version: jobInfo.version
+                        },
                         lock: true,
                         transaction: t,
                     }
                 );
+
                 await t.commit();
             } else {
                 await t.rollback();
@@ -84,7 +109,9 @@ class JobService {
             }
         } catch(e) {
             await t.rollback();
-            return new HttpResponse(400);
+            return new HttpResponse(422, {
+                error: "We can't process your request right now. Try again."
+            }, error);
         }
 
         return new HttpResponse(204);

@@ -11,9 +11,9 @@ class ContractController {
         }
     }
 
-    static async getAllContracts (profileId) {
+    static async getAllContracts (profileId, page, limit) {
         try {
-            return new ContractService().getAllContracts(profileId);
+            return new ContractService().getAllContracts(profileId, page, limit);
         } catch (error) {
             return new HttpResponse(500, 'Internal Server Error', error);
         }

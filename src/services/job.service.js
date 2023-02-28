@@ -68,9 +68,9 @@ class JobService {
         try {
             if (jobInfo.Contract.Client.balance > jobInfo.price) {
                 const clientProfile = await Profile.findOne({ where: { id: clientProfileId } });
-                const contractorProfile = await Profile.findOne({ where: { id: clientProfileId } });
+                const contractorProfile = await Profile.findOne({ where: { id: jobInfo.Contract.ContractorId } });
 
-                await Profile.decrement('balance', {
+                const t1 = await Profile.decrement('balance', {
                     by: jobInfo.price,
                     where: {
                         id: clientProfileId,
@@ -80,7 +80,7 @@ class JobService {
                     transaction: t
                 });
 
-                await Profile.increment('balance', {
+                const t2 = await Profile.increment('balance', {
                     by: jobInfo.price,
                     where: {
                         id: jobInfo.Contract.ContractorId,
@@ -90,7 +90,7 @@ class JobService {
                     transaction: t
                 });
 
-                await Job.update(
+                const t3 = await Job.update(
                     { paid: true },
                     {
                         where: {
@@ -102,7 +102,13 @@ class JobService {
                     }
                 );
 
-                await t.commit();
+                if (t1 && t1[0][1] && t2 && t2[0][1] && t3)
+                    await t.commit();
+                else {
+                    await t.rollback();
+                    throw new Error('Transaction failed');
+                }
+
             } else {
                 await t.rollback();
                 return new HttpResponse(422, { error: "You have insuficient funds!"});

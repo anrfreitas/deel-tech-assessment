@@ -22,7 +22,7 @@ const setupContextRoutes = (app) => {
     app.get(`/${API_CONTEXT_PREFIX}`,
         [ middlewares.cache(config.DEFAULT_CACHE_TTL), middlewares.getProfile ], async (req, res) => {
             const httpResponse = await controllerModule.contractController
-                .getAllContracts(req.headers?.profile_id);
+                .getAllContracts(req.headers?.profile_id, req.query?.page, req.query?.limit);
             return httpResponse.processResponse(res);
     });
 }

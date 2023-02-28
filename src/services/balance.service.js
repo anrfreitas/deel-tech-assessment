@@ -36,6 +36,7 @@ class BalanceService {
             return currentValue += item.price;
         }, 0);
 
+
         const limitPermitedToDeposit = amountToPay * (25/100);
 
         if (amount > limitPermitedToDeposit) {
@@ -57,17 +58,18 @@ class BalanceService {
              */
             const profile = await Profile.findOne({ where: { id: receiverProfileId } });
 
-            await Profile.increment('balance', {
+            const t1 = await Profile.increment('balance', {
                 by: amount,
                 where: {
                     id: receiverProfileId,
                     version: profile.version
                 },
                 lock: true,
-                transaction: t
+                transaction: t,
             });
 
-            t.commit();
+            if (t1 && t1[0][1]) t.commit();
+            else throw new Error('Transaction failed');
         } catch (error) {
             await t.rollback();
             return new HttpResponse(422, {
